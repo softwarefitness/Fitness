@@ -1,4 +1,4 @@
-#Author: loaa
+
 @tag
 Feature: User Management
 Admin should be able to manage user accounts for instructors and clients.
