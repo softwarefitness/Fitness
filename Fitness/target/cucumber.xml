@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Cucumber" time="2.023" tests="79" skipped="0" failures="77" errors="0">
+<testcase classname="Account Management" name="Create a new client profile with personal details" time="0.051">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I create a profile with my personal details including age and fitness goals.skipped
+Then my personal details should be saved successfully in my profile.........skipped
+]]></system-out>
+</testcase>
+<testcase classname="Account Management" name="Update personal details in my profile" time="0.005">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I update my personal details such as age and fitness goals.............skipped
+Then my updated personal details should be saved successfully in my profile.skipped
+]]></system-out>
+</testcase>
+<testcase classname="Account Management" name="Set dietary preferences in my profile" time="0.003">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I set my dietary preferences or restrictions (e.g., vegetarian, gluten-free).skipped
+Then my dietary preferences should be saved successfully in my profile......skipped
+]]></system-out>
+</testcase>
+<testcase classname="Account Management" name="Edit dietary preferences or restrictions" time="0.005">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I edit my dietary preferences or restrictions (e.g., add lactose intolerance).skipped
+Then my edited dietary preferences should be updated successfully in my profile.skipped
+]]></system-out>
+</testcase>
+<testcase classname="Account Management" name="View personal details and dietary preferences" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I view my profile......................................................skipped
+Then I should be able to see my personal details, fitness goals, and dietary preferences.skipped
+]]></system-out>
+</testcase>
+<testcase classname="Account Management" name="Attempt to create a profile with invalid details" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I attempt to create a profile with invalid details such as age = "abc".skipped
+Then I should see an error message indicating invalid input.................skipped
+And my profile should not be saved..........................................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Account Management" name="Attempt to create a profile with missing mandatory details" time="0.005">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I attempt to create a profile without providing my age.................skipped
+Then I should see an error message indicating that age is required..........skipped
+And my profile should not be saved..........................................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Account Management" name="Delete my profile" time="0.009">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I choose to delete my profile..........................................skipped
+Then my profile should be removed from the system...........................skipped
+And I should no longer be able to access my account.........................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Account Management" name="Unauthorized access to another client's profile" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I attempt to access another client's profile...........................skipped
+Then I should receive an error message indicating insufficient permissions..skipped
+And I should not be able to view or edit their profile......................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Approve New Instructor Registrations" name="Approve New Instructor" time="0.01">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+And there is a pending instructor registration..............................skipped
+When I review the registration details......................................skipped
+And I approve the new instructor registration...............................skipped
+Then the instructor should be added to the system as an active user.........skipped
+And I should see a success message confirming the approval..................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Approve New Instructor Registrations" name="Reject New Instructor" time="0.01">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+And there is a pending instructor registration..............................skipped
+When I review the registration details......................................skipped
+And I reject the new instructor registration................................skipped
+Then the instructor should not be added to the system.......................skipped
+And I should see a rejection message confirming the action..................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Approve New Instructor Registrations" name="View Pending Instructor Registrations" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+When I navigate to the "Pending Registrations" section......................skipped
+Then I should see a list of all pending instructor registrations............skipped
+And I should be able to review the details of each registration.............skipped
+]]></system-out>
+</testcase>
+<testcase classname="Approve New Instructor Registrations" name="Notify Instructor After Approval" time="0.005">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+And I approve a new instructor registration.................................skipped
+When the registration is approved...........................................skipped
+Then the instructor should receive a notification email confirming their approval.skipped
+And I should see a message confirming the email has been sent...............skipped
+]]></system-out>
+</testcase>
+<testcase classname="Approve New Instructor Registrations" name="Notify Instructor After Rejection" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+And I reject a new instructor registration..................................skipped
+When the registration is rejected...........................................skipped
+Then the instructor should receive a notification email about the rejection.skipped
+And I should see a message confirming the rejection email has been sent.....skipped
+]]></system-out>
+</testcase>
+<testcase classname="Content Management" name="Approve a Submitted Fitness Tip" time="0.007">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+When I approve a submitted fitness tip titled "5-Minute Stretching Routine".skipped
+Then the tip "5-Minute Stretching Routine" should be publicly visible on the platform.skipped
+]]></system-out>
+</testcase>
+<testcase classname="Content Management" name="Reject a Submitted Fitness Tip" time="0.005">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+When I reject a submitted fitness tip titled "5-Minute Stretching Routine" with reason "Lack of sufficient details".skipped
+Then the submitter should receive a notification "Lack of sufficient details".skipped
+And the tip "5-Minute Stretching Routine" should not be publicly visible....skipped
+]]></system-out>
+</testcase>
+<testcase classname="Content Management" name="Delete a Publicly Visible Fitness Tip" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+And the fitness tip "Beginner Yoga Postures" is publicly visible............skipped
+When I delete the fitness tip "Beginner Yoga Postures"......................skipped
+Then the tip "Beginner Yoga Postures" should no longer be visible on the platform.skipped
+]]></system-out>
+</testcase>
+<testcase classname="Content Management" name="View Feedback for a Fitness Tip" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+When I view feedback for the fitness tip titled "Home Workout Plan".........skipped
+Then I should see all user comments and ratings for "Home Workout Plan".....skipped
+]]></system-out>
+</testcase>
+<testcase classname="Content Management" name="Remove Inappropriate Feedback" time="0.005">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+And there is a feedback comment "Inappropriate language" on the fitness tip titled "Healthy Morning Routine".skipped
+When I remove the inappropriate feedback on "Healthy Morning Routine".......skipped
+Then the feedback should no longer be visible under the "Healthy Morning Routine" tip.skipped
+]]></system-out>
+</testcase>
+<testcase classname="Content Management" name="Respond to a Feedback Question" time="0.005">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+And there is a feedback question "Can I do this routine with back pain?" on the fitness tip "5-Minute Stretching Routine".skipped
+When I respond to the feedback with "Please consult a physician before attempting.".skipped
+Then my response should be visible under the feedback question..............skipped
+]]></system-out>
+</testcase>
+<testcase classname="Feedback and Reviews" name="Rate a completed program" time="0.015">
+<failure/>
+<system-out><![CDATA[
+Given I have completed a program............................................undefined
+When I rate the program with a score of 5 stars.............................skipped
+Then the rating should be saved successfully................................skipped
+And I should be able to view my rating on the program page..................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Feedback and Reviews" name="Write a review for a completed program" time="0.003">
+<failure/>
+<system-out><![CDATA[
+Given I have completed a program............................................undefined
+When I write a review with the content "Great program, helped me lose weight".skipped
+Then the review should be saved successfully................................skipped
+And I should be able to view my review on the program page..................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Feedback and Reviews" name="Submit a suggestion for improvement to an instructor" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I have completed a program............................................undefined
+When I submit a suggestion with the content "Would love to have more flexibility in the schedule".skipped
+Then the suggestion should be saved successfully............................skipped
+And the instructor should be notified of my suggestion......................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Feedback and Reviews" name="View all ratings and reviews for a completed program" time="0.005">
+<failure/>
+<system-out><![CDATA[
+Given I have completed a program............................................undefined
+When I view the program page................................................skipped
+Then I should be able to see all ratings and reviews from other clients.....skipped
+]]></system-out>
+</testcase>
+<testcase classname="Feedback and Reviews" name="Edit my review for a completed program" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I have completed a program............................................undefined
+And I have already written a review.........................................skipped
+When I edit my review to change the content to "Excellent program, very helpful".skipped
+Then my review should be updated successfully...............................skipped
+And I should be able to see the updated review on the program page..........skipped
+]]></system-out>
+</testcase>
+<testcase classname="Feedback and Reviews" name="Submit a negative or inappropriate rating" time="0.005">
+<failure/>
+<system-out><![CDATA[
+Given I have completed a program............................................undefined
+When I rate the program with a score of 1 star and a comment "Terrible, didn't help me at all".skipped
+Then the rating should be flagged for review by the system..................skipped
+And I should be notified that my rating is under review.....................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Feedback and Reviews" name="Write an inappropriate review" time="0.002">
+<failure/>
+<system-out><![CDATA[
+Given I have completed a program............................................undefined
+When I write a review with content "This program was garbage!"..............skipped
+Then the review should be flagged as inappropriate..........................skipped
+And I should be notified that my review has been rejected due to inappropriate content.skipped
+]]></system-out>
+</testcase>
+<testcase classname="Feedback and Reviews" name="Submit a duplicate review or rating" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I have already rated a program with 5 stars...........................undefined
+When I try to submit the same 5-star rating again...........................skipped
+Then I should be informed that I have already rated this program............skipped
+And the system should not allow the duplicate rating or review..............skipped
+]]></system-out>
+</testcase>
+<testcase classname="Feedback and Reviews" name="Submit an incomplete or vague review" time="0.003">
+<failure/>
+<system-out><![CDATA[
+Given I have completed a program............................................undefined
+When I submit a review with the content "Good program"......................skipped
+Then the system should prompt me to provide more details if the review is too vague.skipped
+And the review should not be saved until I provide a more detailed review...skipped
+]]></system-out>
+</testcase>
+<testcase classname="Feedback and Reviews" name="Admin review of ratings and reviews before publishing" time="0.003">
+<failure/>
+<system-out><![CDATA[
+Given I have submitted a rating and review for a program....................undefined
+When the admin reviews my rating and review.................................skipped
+Then the admin should approve or reject the review based on guidelines......skipped
+And I should be notified if my review is published or rejected..............skipped
+]]></system-out>
+</testcase>
+<testcase classname="Monitor user activity and engagement statistics" name="View user activity summary" time="0.017">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+When I navigate to the "User Activity Dashboard"............................skipped
+Then I should see a summary of user activity................................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Monitor user activity and engagement statistics" name="Filter user activity by date range" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+Given I am on the "User Activity Dashboard".................................skipped
+When I select a date range from "<start_date>" to "<end_date>"..............skipped
+And I click "Filter"........................................................skipped
+Then I should see the activity statistics for the selected date range.......skipped
+]]></system-out>
+</testcase>
+<testcase classname="Monitor user activity and engagement statistics" name="Search for user activity by user ID" time="0.01">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+Given I am on the "User Activity Dashboard".................................skipped
+When I enter a user ID into the "Search by User ID" field...................skipped
+And I click "Search"........................................................skipped
+Then I should see the activity details for the selected user................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Monitor user activity and engagement statistics" name="Search for user activity by user name" time="0.005">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+Given I am on the "User Activity Dashboard".................................skipped
+When I enter a user name into the "Search by Name" field....................skipped
+And I click "Search"........................................................skipped
+Then I should see the activity details for the selected user................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Monitor user activity and engagement statistics" name="Export user activity report" time="0.005">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+Given I am on the "User Activity Dashboard".................................skipped
+When I click "Export Report"................................................skipped
+Then a downloadable report should be generated..............................skipped
+And the file name should include the current date in the format "User_Activity_Report_<yyyy-MM-dd>.csv".skipped
+]]></system-out>
+</testcase>
+<testcase classname="Program Exploration and Enrollment" name="Browse programs by difficulty level" time="0.007">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I browse the programs and filter by difficulty level "Beginner"........skipped
+Then I should see a list of programs with difficulty level "Beginner".......skipped
+]]></system-out>
+</testcase>
+<testcase classname="Program Exploration and Enrollment" name="Browse programs by focus area" time="0.003">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I browse the programs and filter by focus area "Weight Loss"...........skipped
+Then I should see a list of programs with focus area "Weight Loss"..........skipped
+]]></system-out>
+</testcase>
+<testcase classname="Program Exploration and Enrollment" name="Browse programs by multiple filters (difficulty level and focus area)" time="0.003">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I browse the programs and filter by difficulty level "Intermediate" and focus area "Muscle Building".skipped
+Then I should see a list of programs with difficulty level "Intermediate" and focus area "Muscle Building".skipped
+]]></system-out>
+</testcase>
+<testcase classname="Program Exploration and Enrollment" name="Enroll in a program" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I select a program with difficulty level "Advanced" and focus area "Flexibility".skipped
+And I click on "Enroll".....................................................skipped
+Then I should be successfully enrolled in the selected program..............skipped
+]]></system-out>
+</testcase>
+<testcase classname="Program Exploration and Enrollment" name="View schedule of an enrolled program" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I am enrolled in a program with focus area "Muscle Building"...........skipped
+Then I should be able to view the program's schedule........................skipped
+And I should see the start and end times of the program.....................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Program Exploration and Enrollment" name="No programs available for the selected filters" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I browse the programs and filter by difficulty level "Expert"..........skipped
+Then I should see a message saying "No programs available for the selected filters".skipped
+]]></system-out>
+</testcase>
+<testcase classname="Program Exploration and Enrollment" name="Attempt to enroll in a fully booked program" time="0.005">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+And the program with difficulty level "Advanced" and focus area "Weight Loss" is fully booked.skipped
+When I attempt to enroll in the program.....................................skipped
+Then I should see a message saying "This program is fully booked"...........skipped
+]]></system-out>
+</testcase>
+<testcase classname="Program Exploration and Enrollment" name="Attempt to enroll in the same program multiple times" time="0.005">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+And I am already enrolled in the program with focus area "Flexibility"......skipped
+When I attempt to enroll in the same program again..........................skipped
+Then I should see a message saying "You are already enrolled in this program".skipped
+]]></system-out>
+</testcase>
+<testcase classname="Program Exploration and Enrollment" name="Cancel enrollment in a program" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+And I am enrolled in the program with focus area "Muscle Building"..........skipped
+When I choose to cancel my enrollment.......................................skipped
+Then I should be successfully unenrolled from the program...................skipped
+And I should see a confirmation message saying "You have successfully canceled your enrollment".skipped
+]]></system-out>
+</testcase>
+<testcase classname="Program Exploration and Enrollment" name="View program details before enrollment" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I select the program with focus area "Weight Loss".....................skipped
+Then I should see the program's details including its difficulty level, schedule, and description.skipped
+]]></system-out>
+</testcase>
+<testcase classname="Progress Tracking" name="Track personal fitness milestone (weight)" time="0.009">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I update my weight in my profile.......................................skipped
+Then my weight should be saved successfully in my profile...................skipped
+And I should be able to view my updated weight in the progress section......skipped
+]]></system-out>
+</testcase>
+<testcase classname="Progress Tracking" name="Track personal fitness milestone (BMI)" time="0.003">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I update my BMI in my profile..........................................skipped
+Then my BMI should be saved successfully in my profile......................skipped
+And I should be able to view my updated BMI in the progress section.........skipped
+]]></system-out>
+</testcase>
+<testcase classname="Progress Tracking" name="Track personal fitness milestone (attendance)" time="0.002">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I attend a fitness program session.....................................skipped
+Then my attendance should be recorded for the program.......................skipped
+And I should be able to view my attendance history in the progress section..skipped
+]]></system-out>
+</testcase>
+<testcase classname="Progress Tracking" name="View achievements or badges after completing a program" time="0.005">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I complete a fitness program...........................................skipped
+Then I should receive an achievement or badge for completing the program....skipped
+And the achievement or badge should appear in the achievements section of my profile.skipped
+]]></system-out>
+</testcase>
+<testcase classname="Progress Tracking" name="View all tracked milestones and achievements" time="0.002">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I view my progress section.............................................skipped
+Then I should be able to see my tracked milestones such as weight, BMI, and attendance.skipped
+And I should be able to see the badges or achievements earned for completing programs.skipped
+]]></system-out>
+</testcase>
+<testcase classname="Progress Tracking" name="Enter an invalid weight" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I update my weight to "-10"............................................skipped
+Then I should see an error message saying "Invalid weight value"............skipped
+And my weight should not be saved until a valid value is entered............skipped
+]]></system-out>
+</testcase>
+<testcase classname="Progress Tracking" name="Enter an invalid BMI" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I update my BMI to "5".................................................skipped
+Then I should see an error message saying "Invalid BMI value"...............skipped
+And my BMI should not be saved until a valid value is entered...............skipped
+]]></system-out>
+</testcase>
+<testcase classname="Progress Tracking" name="Failed to record attendance in a session" time="0.002">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I attend a fitness program session.....................................skipped
+And the system fails to record my attendance................................skipped
+Then I should see a message saying "Attendance could not be recorded, please try again".skipped
+]]></system-out>
+</testcase>
+<testcase classname="Progress Tracking" name="Failure to receive achievement or badge after completing a program" time="0.003">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I complete a fitness program...........................................skipped
+And the system fails to assign an achievement or badge......................skipped
+Then I should see a message saying "Achievement or badge could not be awarded, please contact support".skipped
+]]></system-out>
+</testcase>
+<testcase classname="Progress Tracking" name="View progress over time for weight or BMI" time="0.003">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I view my progress section.............................................skipped
+Then I should see a graph or list showing the changes in my weight and/or BMI over time.skipped
+]]></system-out>
+</testcase>
+<testcase classname="Progress Tracking" name="Remove weight or BMI tracking" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a Client............................................undefined
+When I choose to remove weight tracking from my profile.....................skipped
+Then my weight should no longer be tracked and will be removed from the progress section.skipped
+]]></system-out>
+</testcase>
+<testcase classname="Subscription Management" name="Add a New Subscription Plan" time="0.006">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+When I add a new subscription plan with the following details:..............skipped
+Then the new subscription plan "Premium" for "Client" should be available for selection.skipped
+]]></system-out>
+</testcase>
+<testcase classname="Subscription Management" name="Update an Existing Subscription Plan" time="0.002">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+And a subscription plan "Basic" for "Instructor" exists.....................skipped
+When I update the subscription plan "Basic" with the new price "$30/mo".....skipped
+Then the subscription plan "Basic" should reflect the updated price "$30/mo".skipped
+]]></system-out>
+</testcase>
+<testcase classname="Subscription Management" name="Deactivate a Subscription Plan" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+And a subscription plan "Premium" for "Client" exists.......................skipped
+When I deactivate the subscription plan "Premium"...........................skipped
+Then the subscription plan "Premium" should no longer be available for new users.skipped
+And existing users with "Premium" plans should retain their benefits until the end of the billing cycle.skipped
+]]></system-out>
+</testcase>
+<testcase classname="Subscription Management" name="View All Subscription Plans" time="0.003">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+When I view all subscription plans..........................................skipped
+Then I should see a list of all active plans with details:..................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Subscription Management" name="Upgrade to a Premium Subscription" time="0.003">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a user with a "Basic" subscription..................undefined
+When I upgrade to a "Premium" subscription..................................skipped
+Then my subscription type should be updated to "Premium"....................skipped
+And I should be charged $50 for the current billing cycle...................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Subscription Management" name="Downgrade to a Basic Subscription" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a user with a "Premium" subscription................undefined
+When I downgrade to a "Basic" subscription..................................skipped
+Then my subscription type should be updated to "Basic"......................skipped
+And the changes should take effect in the next billing cycle................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Subscription Management" name="Cancel a Subscription" time="0.003">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a user with an active subscription..................undefined
+When I cancel my subscription...............................................skipped
+Then my subscription should remain active until the end of the billing cycle.skipped
+And I should receive a confirmation message "Your subscription has been canceled and will end on <end_date>.".skipped
+]]></system-out>
+</testcase>
+<testcase classname="Subscription Management" name="View Available Subscription Plans" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a user..............................................undefined
+When I view the available subscription plans................................skipped
+Then I should see a list of plans with details:.............................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Subscription Management" name="Receive Notification for Expiring Subscription" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as a user with a subscription expiring in 7 days.......undefined
+When the system generates notifications.....................................skipped
+Then I should receive a message "Your subscription will expire on <end_date>. Renew now to avoid interruption.".skipped
+]]></system-out>
+</testcase>
+<testcase classname="Login" name="login successfully" time="0.016">
+<failure/>
+<system-out><![CDATA[
+Given that the user is not logged in........................................passed
+And The user has entered all the data correctly  "email" , "password".......undefined
+Then the user is logged in successfully.....................................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Login" name="username error" time="0.015">
+<failure type="java.lang.NullPointerException" message="Cannot invoke &quot;java.lang.System$Logger.log(java.lang.System$Logger$Level, String)&quot; because &quot;fitnessAcceptanceTest.login.logger&quot; is null">
+<![CDATA[java.lang.NullPointerException: Cannot invoke "java.lang.System$Logger.log(java.lang.System$Logger$Level, String)" because "fitnessAcceptanceTest.login.logger" is null
+	at fitnessAcceptanceTest.login.show_message(login.java:52)
+	at ✽.Show "The username entered is incorrect" message.(file:///C:/Users/Hp%20Zbook/git/Fitnes/Fitness/Features/loginFeature.feature:14)
+]]>
+</failure>
+<system-out><![CDATA[
+Given that the user is not logged in........................................passed
+And "username" is not in the database.......................................passed
+Then Show "The username entered is incorrect" message.......................failed
+]]></system-out>
+</testcase>
+<testcase classname="Login" name="password error" time="0.006">
+<failure type="java.lang.NullPointerException" message="Cannot invoke &quot;java.lang.System$Logger.log(java.lang.System$Logger$Level, String)&quot; because &quot;fitnessAcceptanceTest.login.logger&quot; is null">
+<![CDATA[java.lang.NullPointerException: Cannot invoke "java.lang.System$Logger.log(java.lang.System$Logger$Level, String)" because "fitnessAcceptanceTest.login.logger" is null
+	at fitnessAcceptanceTest.login.show_message_with_error(login.java:66)
+	at ✽.Show message "The password entered is incorrect"(file:///C:/Users/Hp%20Zbook/git/Fitnes/Fitness/Features/loginFeature.feature:20)
+]]>
+</failure>
+<system-out><![CDATA[
+Given that the user is not logged in........................................passed
+And the "password" not in database..........................................passed
+Then Show message "The password entered is incorrect".......................failed
+]]></system-out>
+</testcase>
+<testcase classname="Program Monitoring" name="View statistics of the most popular programs" time="0.008">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+Given I navigate to the "Program Monitoring Dashboard"......................skipped
+When I select the option to view "Most Popular Programs"....................skipped
+Then I should see a list of programs sorted by enrollment...................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Program Monitoring" name="Generate reports on revenue, attendance, and client progress" time="0.006">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+Given I am on the "Program Monitoring Dashboard"............................skipped
+When I select the option to generate "Program Performance Reports"..........skipped
+And I specify the report type as "Revenue"..................................skipped
+Then I should receive a detailed revenue report for all programs............skipped
+When I specify the report type as "Attendance"..............................skipped
+Then I should receive a detailed attendance report for all programs.........skipped
+When I specify the report type as "Client Progress".........................skipped
+Then I should receive a detailed progress report for all enrolled clients...skipped
+]]></system-out>
+</testcase>
+<testcase classname="Program Monitoring" name="Track active and completed programs" time="0.003">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+Given I am on the "Program Monitoring Dashboard"............................skipped
+When I select the option to view "Program Status"...........................skipped
+Then I should see programs categorized by status............................skipped
+]]></system-out>
+</testcase>
+<testcase classname="Program Monitoring" name="Export program performance reports" time="0.006">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+Given I am on the "Program Monitoring Dashboard"............................skipped
+When I click "Export Report"................................................skipped
+And I select the report type as "Revenue"...................................skipped
+Then a downloadable revenue report should be generated......................skipped
+And the file name should include the current date in the format "Revenue_Report_<yyyy-MM-dd>.csv".skipped
+]]></system-out>
+</testcase>
+<testcase classname="Sign-up" name="Register customer successful" time="0.013">
+<system-out><![CDATA[
+Given there is a customer with customer ID "id" ,NAME "customer name" , PASSWORD "pass " , phone "phone", address "address".passed
+When the customer is registered "customer name".............................passed
+]]></system-out>
+</testcase>
+<testcase classname="Sign-up" name="a customer that is already registered" time="0.003">
+<system-out><![CDATA[
+Given there is a customer with customer ID "id" ,NAME "customer name" , PASSWORD "pass " , phone "phone", address "address".passed
+When the customer is registered "customer name".............................passed
+]]></system-out>
+</testcase>
+<testcase classname="User Management" name="Add New User" time="0.005">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+When I add a new user with valid details....................................skipped
+Then the new user should be created successfully............................skipped
+And I should see a success message confirming the addition..................skipped
+]]></system-out>
+</testcase>
+<testcase classname="User Management" name="Update User Details" time="0.003">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+When I update the user details with new information.........................skipped
+Then the updated user details should be saved...............................skipped
+And I should see a confirmation message with the updated information........skipped
+]]></system-out>
+</testcase>
+<testcase classname="User Management" name="Deactivate User Account" time="0.003">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+When I deactivate a user account............................................skipped
+Then the user should be deactivated.........................................skipped
+And I should see a success message confirming the deactivation..............skipped
+]]></system-out>
+</testcase>
+<testcase classname="User Management" name="User Already Exists" time="0.002">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+When I try to add a new user with an existing email.........................skipped
+Then I should be notified that the email is already registered..............skipped
+And I should be asked to choose a different email address...................skipped
+]]></system-out>
+</testcase>
+<testcase classname="User Management" name="Invalid Email Format" time="0.004">
+<failure/>
+<system-out><![CDATA[
+Given I am logged in as an admin............................................undefined
+When I try to add a user with an invalid email address......................skipped
+Then I should be notified that the email format is invalid..................skipped
+And I should be prompted to enter a valid email address.....................skipped
+]]></system-out>
+</testcase>
+</testsuite>

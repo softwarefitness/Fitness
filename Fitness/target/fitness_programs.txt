@@ -1,0 +1,730 @@
+package fitnessAcceptanceTest;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class AdminFunctions {
+    static Printing printing = new Printing();
+    Scanner scanner = new Scanner(System.in);
+    private static final String USER_FILE = "users.txt";
+    private static final String PROGRAM_FILE = "programs.txt";
+    private static final String SUBSCRIPTION_FILE = "subscriptions.txt";
+    private static final String CONTENT_FILE = "content.txt";
+    private final List<User> users = new ArrayList<>();
+    private final List<Program> programs = new ArrayList<>();
+    private final List<Subscription> subscriptions = new ArrayList<>();
+    private final List<String> wellnessContent = new ArrayList<>();
+
+    // Manage Users
+    void addUser(User user) {
+        try (FileWriter writer = new FileWriter(USER_FILE, true)) {
+            writer.append(user.getId()).append(", ")
+                  .append(user.getName()).append(", ")
+                  .append(user.getRole()).append(", ")
+                  .append(user.isApproved() ? "Approved" : "Pending").append("\n");
+            users.add(user);
+            printing.printSomething("User added successfully: " + user.getName());
+        } catch (IOException e) {
+            printing.printSomething("An error occurred: " + e.getMessage());
+        }
+    }
+
+    void updateUser(String userId, String newName, String newRole) {
+        boolean found = false;
+        for (User user : users) {
+            if (user.getId().equals(userId)) {
+                user.setName(newName);
+                user.setRole(newRole);
+                found = true;
+                break;
+            }
+        }
+        if (found) {
+            saveUsersToFile();
+            printing.printSomething("User updated successfully: " + userId);
+        } else {
+            printing.printSomething("User not found: " + userId);
+        }
+    }
+
+    void approveUser(String userId) {
+        boolean found = false;
+        for (User user : users) {
+            if (user.getId().equals(userId) && user.getRole().equalsIgnoreCase("Instructor")) {
+                user.setApproved(true);
+                found = true;
+                break;
+            }
+        }
+        if (found) {
+            saveUsersToFile();
+            printing.printSomething("User approved: " + userId);
+        } else {
+            printing.printSomething("Instructor not found or already approved.");
+        }
+    }
+
+    // Manage Programs
+    void addProgram(Program program) {
+        programs.add(program);
+        saveProgramsToFile();
+        printing.printSomething("Program added successfully: " + program.getTitle());
+    }
+
+    // Manage Subscriptions
+    void addSubscription(Subscription subscription) {
+        subscriptions.add(subscription);
+        saveSubscriptionsToFile();
+        printing.printSomething("Subscription plan added: " + subscription.getPlanName());
+    }
+
+    // Manage Content
+    void approveContent(String content) {
+        wellnessContent.add(content);
+        saveContentToFile();
+        printing.printSomething("Content approved and added to the system.");
+    }
+
+    // File Operations
+    private void saveUsersToFile() {
+        try (FileWriter writer = new FileWriter(USER_FILE)) {
+            for (User user : users) {
+                writer.append(user.getId()).append(", ")
+                      .append(user.getName()).append(", ")
+                      .append(user.getRole()).append(", ")
+                      .append(user.isApproved() ? "Approved" : "Pending").append("\n");
+            }
+        } catch (IOException e) {
+            printing.printSomething("Error saving users to file: " + e.getMessage());
+        }
+    }
+
+    private void saveProgramsToFile() {
+        try (FileWriter writer = new FileWriter(PROGRAM_FILE)) {
+            for (Program program : programs) {
+                writer.append(program.getId()).append(", ")
+                      .append(program.getTitle()).append(", ")
+                      .append(program.getDuration()).append(" weeks, ")
+                      .append(program.getPrice()).append("\n");
+            }
+        } catch (IOException e) {
+            printing.printSomething("Error saving programs to file: " + e.getMessage());
+        }
+    }
+
+    private void saveSubscriptionsToFile() {
+        try (FileWriter writer = new FileWriter(SUBSCRIPTION_FILE)) {
+            for (Subscription subscription : subscriptions) {
+                writer.append(subscription.getPlanName()).append(", ")
+                      .append(String.valueOf(subscription.getPrice())).append("\n");
+            }
+        } catch (IOException e) {
+            printing.printSomething("Error saving subscriptions to file: " + e.getMessage());
+        }
+    }
+
+    private void saveContentToFile() {
+        try (FileWriter writer = new FileWriter(CONTENT_FILE)) {
+            for (String content : wellnessContent) {
+                writer.append(content).append("\n");
+            }
+        } catch (IOException e) {
+            printing.printSomething("Error saving content to file: " + e.getMessage());
+        }
+    }
+}
+
+// Helper Classes
+class User {
+    private String id, name, role;
+    private boolean approved;
+
+    public User(String id, String name, String role) {
+        this.id = id;
+        this.name = name;
+        this.role = role;
+        this.approved = false;
+    }
+
+    public String getId() { return id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
+    public boolean isApproved() { return approved; }
+    public void setApproved(boolean approved) { this.approved = approved; }
+}
+
+class Program {
+    private String id, title;
+    private int duration;
+    private double price;
+
+    public Program(String id, String title, int duration, double price) {
+        this.id = id;
+        this.title = title;
+        this.duration = duration;
+        this.price = price;
+    }
+
+    public String getId() { return id; }
+    public String getTitle() { return title; }
+    public int getDuration() { return duration; }
+    public double getPrice() { return price; }
+}
+
+class Subscription {
+    private String planName;
+    private double price;
+
+    public Subscription(String planName, double price) {
+        this.planName = planName;
+        this.price = price;
+    }
+
+    public String getPlanName() { return planName; }
+    public double getPrice() { return price; }
+}
+
+class Printing {
+    public void printSomething(String message) {
+        System.out.println(message);
+    }
+}
+void customerSignUp() throws IOException {
+    customer = new Customer();
+    printing.printSomething("Enter your Id: ");
+    id = scanner.next();
+    found = searchId(id);
+    if (found) {
+        printing.printSomething("This account already exists. Please Sign in.");
+        signInFunction();
+    } else {
+        customer.setId(id);
+        printing.printSomething("Enter your Name: ");
+        customer.setName(scanner.next());
+        printing.printSomething("Enter your Phone: ");
+        customer.setPhone(scanner.next());
+        printing.printSomething("Enter your Address: ");
+        customer.setAddress(scanner.next());
+        printing.printSomething("Enter your Email: ");
+        customer.setEmail(scanner.next());
+        printing.printSomething("Thank you! Your information has been recorded.\nEnter a password: ");
+        customer.setPassword(scanner.next());
+        printing.printSomething("Registration completed successfully.\n");
+        customers.add(customer);
+        addCustomerToFile(customer);
+    }
+}
+
+void inputs() {
+    printing.printSomething("Enter Id: ");
+    id = scanner.next();
+    printing.printSomething(ENTER_PASSWORD);
+    password = scanner.next();
+}
+
+void adminPage() throws IOException {
+    while (x > 0) {
+        adminList();
+        printing.printSomething(ENTER_CHOICE);
+        int c = scanner.nextInt();
+        switch (c) {
+            case 1 -> viewCustomersAndWorkers();
+            case 2 -> viewBusinessStatistics();
+            case 3 -> viewBusinessReports();
+            case 4 -> viewAllOrders();
+            case 5 -> adminSendEmails();
+            case 6 -> distribute();
+            case 7 -> signInFunction();
+            default -> printing.printSomething(INVALID_CHOICE);
+        }
+    }
+}
+
+private void adminSendEmails() {
+    String[] to = {"ayatd42@gmail.com", "sadeenghawash593@gmail.com"};
+    String subject = "Testing Subject";
+    String body = """
+            Dear customer,
+            Your Order is ready for Collection.
+            An invoice has been sent to you. Please check the invoices section.
+            Payment is due upon receiving.
+            """;
+    NotifyCustomer.sendEmail(admin.getEmail(), admin.getEmailPassword(), to, subject, body);
+}
+
+private void viewBusinessReports() {
+    updateCustomersList();
+    updateOrdersList();
+    tmp = "=================Reports=================\n" +
+            "The number of customers: " + customers.size() + "\n" +
+            "The number of orders: " + orders.size() + "\n" +
+            "The number of workers: " + workers.size() + "\n" +
+            "==========================================\n";
+    printing.printSomething(tmp);
+}
+
+private void viewBusinessStatistics() {
+    int totalDeliveredItems = 10;
+    double totalCash = 5000;
+    double totalDiscount = 500;
+    double totalPaid = 4500;
+    double totalDebts = 0.0;
+    tmp = """
+            =================statistics=================
+            ============================================
+            --> Total Delivered Items: %d
+            --> Total Cash: $%.2f
+            --> Total Discount: $%.2f
+            --> Total Paid: $%.2f
+            --> Total Debts: $%.2f
+            ============================================
+            """.formatted(totalDeliveredItems, totalCash, totalDiscount, totalPaid, totalDebts);
+    printing.printSomething(tmp);
+}
+
+private void viewCustomersAndWorkers() {
+    updateCustomersList();
+    printing.printSomething("List of Customers: \n");
+    for (Customer customer1 : customers) {
+        ArrayList<Order> orders1 = (ArrayList<Order>) getOrdersFromFile(ORDER_FILE_NAME, customer1.getId());
+        tmp = "%s\t%s\t%s\t%s\t%s\t%d\n".formatted(customer1.getId(), customer1.getName(), customer1.getAddress(), customer1.getPhone(), customer1.getEmail(), orders1.size());
+        printing.printSomething(tmp);
+    }
+    printing.printSomething("-----------------------------------------------------------------------\nList of Workers: \n");
+    for (Worker worker : workers) {
+        tmp = "%s\t%s\t%s\t%s\t%s\n".formatted(worker.getId(), worker.getName(), worker.getAddress(), worker.getPhone(), worker.getStatus());
+        printing.printSomething(tmp);
+    }
+}
+
+private void viewAllOrders() {
+    updateCustomersList();
+    for (Customer customer1 : customers) {
+        orders = (ArrayList<Order>) getOrdersFromFile(ORDER_FILE_NAME, customer1.getId());
+        tmp = """
+                -----------------------------------------------
+                %s  %s  %s  %s  %s  %d
+                """.formatted(customer1.getId(), customer1.getName(), customer1.getAddress(), customer1.getPhone(), customer1.getEmail(), orders.size());
+        printing.printSomething(tmp);
+        for (Order order : orders) {
+            tmp = "%d  %s  %.2f\n".formatted(order.getOrderId(), order.getStatus(), order.getTotalPrice());
+            printing.printSomething(tmp);
+            products = (ArrayList<Product>) getProductsFromFile(PRODUCT_FILE_NAME, customer1.getId(), String.valueOf(order.getOrderId()));
+            for (Product product : products) {
+                tmp = "%s  %s  %.2f  %s  %s\n".formatted(product.getName(), product.getMaterial(), product.getArea(), product.getTreatment(), product.getPicture());
+                printing.printSomething(tmp);
+            }
+        }
+        printing.printSomething("\n\n");
+    }
+}
+
+void signInFunction() throws IOException {
+    signInPageList();
+    printing.printSomething(ENTER_CHOICE);
+    choice = scanner.nextInt();
+    printing.printSomething("Enter Id: ");
+    id = scanner.next();
+    printing.printSomething("Enter password: ");
+    password = scanner.next();
+    switch (choice) {
+        case 1 -> {
+            if (id.equals(admin.getAdminId()) && password.equals(admin.getAdminPassword())) {
+                adminPage();
+            } else {
+                printing.printSomething("\nSomething went wrong! Try again.");
+                inputs();
+            }
+        }
+        case 2 -> handleCustomerSignIn();
+        case 3 -> handleWorkerSignIn();
+        default -> printing.printSomething(INVALID_CHOICE);
+    }
+}
+
+private void handleCustomerSignIn() throws IOException {
+    boolean found1 = false;
+    updateCustomersList();
+    for (Customer customer1 : customers) {
+        if (id.equals(customer1.getId()) && password.equals(customer1.getPassword())) {
+            found1 = true;
+            break;
+        }
+    }
+    if (found1) {
+        while (x > 0) {
+            customerPageList();
+            int c = scanner.nextInt();
+            customerOptions(c);
+        }
+    } else {
+        printing.printSomething("\nThis account does not exist. Please Sign up.\n");
+        customerSignUp();
+    }
+}
+
+private void handleWorkerSignIn() {
+    for (Worker worker : workers) {
+        if (worker.getId().equals(id)) {
+            if (worker.getPassword().equals(password)) {
+                while (x > 0) {
+                    workerPageList();
+                    int c = scanner.nextInt();
+                    workerOptions(c);
+                }
+            } else {
+                printing.printSomething("\nSigning in failed. Please check your password.\n");
+                inputs();
+            }
+        } else {
+            printing.printSomething("\nThis account does not exist. Please check the inputs.\n");
+        }
+    }
+}
+void updateCustomersList() {
+    String line;
+    customers.clear();
+    try (BufferedReader lineReader = new BufferedReader(new FileReader(CUSTOMER_FILE_NAME))) {
+        while ((line = lineReader.readLine()) != null) {
+            if (line.isEmpty()) continue;
+            customers.add(Customer.getCustomerFromLine(line));
+        }
+    } catch (IOException e) {
+        printing.printSomething("An error occurred: " + e.getMessage());
+    }
+}
+
+public void updateOrdersList() {
+    String orderFile = "C:\\Users\\sadee\\IdeaProjects\\javaProjects\\SoftwarePro\\orders.txt";
+    String line;
+    orders.clear();
+    try (BufferedReader lineReader = new BufferedReader(new FileReader(orderFile))) {
+        while ((line = lineReader.readLine()) != null) {
+            if (line.isEmpty()) continue;
+            orders.add(Order.getOrderFromLine(line));
+        }
+    } catch (IOException e) {
+        printing.printSomething("An error occurred: " + e.getMessage());
+    }
+}
+
+public static void updateFile(String filePath, String oldValue, String newValue) throws IOException {
+    RandomAccessFile file = new RandomAccessFile(filePath, "rw");
+    String line;
+    long lastPos = 0;
+    while ((line = file.readLine()) != null) {
+        if (line.contains(oldValue)) {
+            String updatedLine = line.replace(oldValue, newValue);
+            file.seek(lastPos);
+            file.writeBytes(updatedLine + System.lineSeparator());
+        }
+        lastPos = file.getFilePointer();
+    }
+    file.close();
+}
+
+public static void replaceLastValueInLine(String fileName, int lineNumber, String newValue) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+        StringBuilder sb = new StringBuilder();
+        String line;
+        int currentLine = 1;
+        while ((line = reader.readLine()) != null) {
+            if (currentLine == lineNumber) {
+                String[] values = line.split(" , ");
+                values[values.length - 1] = String.valueOf(Integer.parseInt(values[values.length - 1]) + Integer.parseInt(newValue));
+                line = String.join(" , ", values);
+            }
+            sb.append(line).append(System.lineSeparator());
+            currentLine++;
+        }
+        try (FileWriter writer = new FileWriter(fileName)) {
+            writer.write(sb.toString());
+        }
+    } catch (IOException e) {
+        printing.printSomething("An error occurred: " + e.getMessage());
+    }
+}
+
+public static int getLineIndexById(String fileName, String id) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+        String line;
+        int currentLine = 1;
+        while ((line = reader.readLine()) != null) {
+            if (line.contains(id)) return currentLine;
+            currentLine++;
+        }
+    } catch (IOException e) {
+        printing.printSomething("An error occurred: " + e.getMessage());
+    }
+    return -1;
+}
+
+public static List<Product> getProductsFromFile(String fileName, String customerId, String orderId) {
+    List<Product> products1 = new ArrayList<>();
+    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] values = line.split(" , ");
+            if (values[0].equals(customerId) && values[1].equals(orderId)) {
+                products1.add(new Product(values[2], values[3], Float.parseFloat(values[4]), values[5], values[6]));
+            }
+        }
+    } catch (IOException e) {
+        printing.printSomething("An error occurred: " + e.getMessage());
+    }
+    return products1;
+}
+
+public static List<Order> getOrdersFromFile(String fileName, String customerId) {
+    ArrayList<Order> orders1 = new ArrayList<>();
+    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] values = line.split(" , ");
+            if (values[0].equals(customerId)) {
+                orders1.add(new Order(Integer.parseInt(values[1]), values[3], values[2], Double.parseDouble(values[5]), values[4]));
+            }
+        }
+    } catch (IOException e) {
+        printing.printSomething("An error occurred: " + e.getMessage());
+    }
+    return orders1;
+}
+
+void customerOptions(int x) throws IOException {
+    switch (x) {
+        case 1 -> updateCustomerProfile(scanner.nextInt());
+        case 2 -> addCustomerOrder();
+        case 5 -> generateInvoice();
+        case 6 -> deleteCustomerProfile();
+        case 7 -> signInFunction();
+        default -> printing.printSomething(INVALID_CHOICE);
+    }
+}
+
+void deleteCustomerProfile() throws IOException {
+    printing.printSomething("Are you sure you want to delete your profile? (Yes/No): ");
+    String val = scanner.next();
+    if (val.equalsIgnoreCase("yes")) {
+        deleteLineByValue(CUSTOMER_FILE_NAME, id);
+        deleteLineByValue(ORDER_FILE_NAME, id);
+        deleteLineByValue(PRODUCT_FILE_NAME, id);
+        printing.printSomething("Account Successfully Deleted.\n");
+    }
+}
+
+void updateCustomerProfile(int option) throws IOException {
+    switch (option) {
+        case 1 -> updateFile(CUSTOMER_FILE_NAME, customer2.getName(), scanner.next());
+        case 2 -> updateFile(CUSTOMER_FILE_NAME, customer2.getPhone(), scanner.next());
+        case 3 -> updateFile(CUSTOMER_FILE_NAME, customer2.getAddress(), scanner.next());
+        case 4 -> updateFile(CUSTOMER_FILE_NAME, customer2.getEmail(), scanner.next());
+        default -> printing.printSomething(INVALID_CHOICE);
+    }
+}
+
+void addCustomerOrder() throws IOException {
+    updateOrdersList();
+    int orderCount = orders.size();
+    do {
+        Order order = new Order(++orderCount);
+        order.setStatus(Order.Status.WAITING);
+        order.setCustomerId(id);
+
+        do {
+            Product product = new Product();
+            printing.printSomething("Enter Product Name: ");
+            product.setName(scanner.next());
+            printing.printSomething("Enter Product Material: ");
+            product.setMaterial(scanner.next());
+            printing.printSomething("Enter Product Area: ");
+            product.setArea(scanner.nextFloat());
+            printing.printSomething("Enter Treatment Requirement: ");
+            product.setTreatment(scanner.next());
+            printing.printSomething("Enter Picture Path: ");
+            product.setPicture(scanner.next());
+            products.add(product);
+            addProductToFile(product);
+        } while (!scanner.next().equalsIgnoreCase("No"));
+
+        orders.add(order);
+        customer2.addOrder(order);
+        addOrderToFile(order);
+
+        printing.printSomething("Add another order? (Yes/No): ");
+    } while (!scanner.next().equalsIgnoreCase("No"));
+}
+
+void generateInvoice() {
+    for (Customer customer1 : customers) {
+        if (customer1.getId().equals(id)) {
+            printing.printSomething(LINE + "\n|                INVOICE               |\n" + LINE);
+            new Invoice(customer1).invoiceRes(customer1);
+            printing.printSomething(LINE);
+        }
+    }
+}
+public void updateCustomerProfile(int n) throws IOException {
+    String tmp1;
+    for (Customer customer1 : customers) {
+        if (customer1.getId().equals(id)) {
+            switch (n) {
+                case 1 -> {
+                    printing.printSomething(ENTER_NAME);
+                    tmp1 = scanner.next();
+                    updateFile(VIEW_FILE, customer1.getName(), tmp1);
+                    customer1.setName(tmp1);
+                }
+                case 2 -> {
+                    printing.printSomething("Enter New Phone: ");
+                    tmp1 = scanner.next();
+                    updateFile(VIEW_FILE, customer1.getPhone(), tmp1);
+                    customer1.setPhone(tmp1);
+                }
+                case 3 -> {
+                    printing.printSomething("Enter New Address: ");
+                    tmp1 = scanner.next();
+                    updateFile(VIEW_FILE, customer1.getAddress(), tmp1);
+                    customer1.setAddress(tmp1);
+                }
+                case 4 -> {
+                    printing.printSomething("Enter New Email: ");
+                    tmp1 = scanner.next();
+                    updateFile(VIEW_FILE, customer1.getEmail(), tmp1);
+                    customer1.setEmail(tmp1);
+                }
+                default -> printing.printSomething(INVALID_CHOICE);
+            }
+        }
+    }
+}
+
+public void updateWorkerProfile(int n) throws IOException {
+    String fileWorker = "C:\\Users\\sadee\\IdeaProjects\\javaProjects\\SoftwarePro\\workers.txt";
+    String tmp2;
+    for (Worker worker : workers) {
+        if (worker.getId().equals(id)) {
+            switch (n) {
+                case 1 -> {
+                    printing.printSomething(ENTER_NAME);
+                    tmp2 = scanner.next();
+                    updateFile(fileWorker, worker.getName(), tmp2);
+                    worker.setName(tmp2);
+                }
+                case 2 -> {
+                    printing.printSomething("Enter New Phone: ");
+                    tmp2 = scanner.next();
+                    updateFile(fileWorker, worker.getPhone(), tmp2);
+                    worker.setPhone(tmp2);
+                }
+                case 3 -> {
+                    printing.printSomething("Enter New Address: ");
+                    tmp2 = scanner.next();
+                    updateFile(fileWorker, worker.getAddress(), tmp2);
+                    worker.setAddress(tmp2);
+                }
+                default -> printing.printSomething(INVALID_CHOICE);
+            }
+        }
+    }
+}
+
+public void workerOptions(int n) throws IOException {
+    switch (n) {
+        case 1 -> {
+            printing.printSomething("Which info you want to update?\n1. Name  2. Phone  3. Address\n" + ENTER_CHOICE);
+            int c = scanner.nextInt();
+            updateWorkerProfile(c);
+        }
+        case 2 -> {
+            updateOrdersList();
+            for (Worker worker : workers) distributor.addAvailableWorker(worker);
+            for (Order order : orders) distributor.addWaitingOrder(order);
+            distributor.distributeOrders();
+            for (Worker worker : distributor.getAvailableWorkers()) {
+                if (worker.getId().equals(id)) {
+                    printing.printSomething("\nWorker ID: " + worker.getId() + ", Name: " + worker.getName() +
+                            "\nWorker status: " + worker.getStatus() + "\n\tWorker orders:");
+                    for (Order order : worker.getOrders()) {
+                        printing.printSomething("\t\t- Customer ID: " + order.getCustomerId() + ", Order ID: " + order.getOrderId() + ", Status: " + order.getStatus());
+                    }
+                }
+            }
+            printing.printSomething("\n\n");
+        }
+        case 3 -> printing.printSomething("\n\n");
+        case 4 -> signInFunction();
+        default -> printing.printSomething(INVALID_CHOICE);
+    }
+}
+
+public void adminList() {
+    printing.printSomething("""
+            \n--------- Welcome to Admin Page --------
+            |                                      |
+            |   1. View Customer/Product/Workers   |
+            |   2. View Business Statistics        |
+            |   3. View Business Reports           |
+            |   4. View All Orders                 |
+            |   5. Notify Customer By Email        |
+            |   6. View Workers with their missions|
+            |   7. Log Out                         |
+            |                                      |
+            ----------------------------------------\n"""
+    );
+}
+
+public void signInPageList() {
+    printing.printSomething("""
+            \n---------- Sign in Page ----------
+            |                                |
+            |        1. Administrator        |
+            |        2. Customer             |
+            |        3. Worker               |
+            |                                |
+            ----------------------------------\n"""
+    );
+}
+
+public void customerPageList() {
+    printing.printSomething("""
+            \n------- Welcome to Customer Page -------
+            |                                      |
+            |        1. Update My Profile          |
+            |        2. Make An Order              |
+            |        3. Update Order               |
+            |        4. Cancel Order               |
+            |        5. Invoices                   |
+            |        6. Delete My Profile          |
+            |        7. Log Out                    |
+            |                                      |
+            ----------------------------------------\n""" + ENTER_CHOICE);
+}
+
+public void workerPageList() {
+    printing.printSomething("""
+            \n-------- Welcome to Worker Page --------
+            |                                      |
+            |        1. Update My Profile          |
+            |        2. View My Missions           |
+            |        3. Update Order Status        |
+            |        4. Log Out                    |
+            |                                      |
+            ----------------------------------------\n""" + ENTER_CHOICE);
+}
+
+public static void deleteLineByValue(String filePath, String value) throws IOException {
+    StringBuilder sb = new StringBuilder();
+    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            if (!line.contains(value)) sb.append(line).append(System.lineSeparator());
+        }
+    }
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+        writer.write(sb.toString());
+    }
+}

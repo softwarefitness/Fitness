@@ -1,4 +1,3 @@
-#Author: loaa
 Feature: Login
   The user wants to access his personal account
 
@@ -19,5 +18,3 @@ Feature: Login
     Given that the user is not logged in
     And the "password" not in database
     Then Show message "The password entered is incorrect"
-
-    
