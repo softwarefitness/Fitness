@@ -1,0 +1,3 @@
+Starter,10%,Monthly,Active
+Pro,20%,Yearly,Active
+Expert,30%,Monthly,Active

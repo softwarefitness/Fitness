@@ -1,0 +1,6 @@
+101,Yoga Basics,Basic Plan
+102,Advanced Yoga,Premium Plan
+103,Strength Training,Standard Plan
+104,Cardio Blast,Premium Plan
+105,Pilates for Beginners,Basic Plan
+

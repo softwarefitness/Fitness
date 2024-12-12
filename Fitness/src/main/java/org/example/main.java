@@ -29,7 +29,8 @@ public class main {
         System.out.println("""
             -------- Welcome to Fitness Management System --------
             |                                                   |
-            |                1. Admin Login                    |
+            |                1. Admin Login     
+                                                               |
             |                2. Exit                           |
             |                                                   |
             -----------------------------------------------------
