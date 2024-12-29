@@ -9,11 +9,78 @@ public class function {
     private static final String USER_FILE = "users.txt";
     private static final String PROGRAM_FILE = "programs.txt";
     private static final String CONTENT_FILE = "content.txt";
-    private static final String FEEDBACK_FILE = "feedback.txt";
+    private static final String FEEDBACK_FILE = "C:\\Users\\Hp Zbook\\git\\Fitnes\\Fitness\\target\\feedback.txt";
     private static final String SUBSCRIPTION_FILE = "subscriptions.txt";
 
     private final Printing printing = new Printing();
     private final Scanner scanner = new Scanner(System.in);
+    
+    //signup 
+    public void signUpFunction() throws Exception {
+        printing.printSomething("Sign Up Page");
+        printing.printSomething("1. Sign Up as Client");
+        printing.printSomething("2. Sign Up as Instructor");
+        printing.printSomething("Enter your choice: ");
+        int choice = getValidChoice(1, 2);
+
+        scanner.nextLine(); // Clear buffer
+        printing.printSomething("Enter Name: ");
+        String name = scanner.nextLine();
+        printing.printSomething("Enter Email: ");
+        String email = scanner.nextLine();
+        printing.printSomething("Enter Phone: ");
+        String phone = scanner.nextLine();
+        printing.printSomething("Enter Password: ");
+        String password = scanner.nextLine();
+
+        // Generate a unique ID
+        String id = generateUniqueId();
+
+        // Append the user to the appropriate file
+        if (choice == 1) {
+            signUpClient(id, name, email, phone, password);
+        } else if (choice == 2) {
+            signUpInstructor(id, name, email, phone, password);
+        }
+    }
+
+    private String generateUniqueId() {
+        // Generate a random 3-digit unique ID
+        return String.format("%03d", new Random().nextInt(900) + 100);
+    }
+
+    private void signUpClient(String id, String name, String email, String phone, String password) throws IOException {
+        String clientFilePath = "C:\\Users\\Hp Zbook\\git\\Fitnes\\Fitness\\target\\clients.txt";
+        String status = "Pending Approval";
+        String clientRecord = String.join(",", id, name, email, phone, password, status);
+
+        appendToFile(clientFilePath, clientRecord);
+        printing.printSomething("Client signed up successfully! Your ID is: " + id);
+        printing.printSomething("An admin will approve your account soon.");
+    }
+
+    private void signUpInstructor(String id, String name, String email, String phone, String password) throws IOException {
+        String instructorFilePath = "C:\\Users\\Hp Zbook\\git\\Fitnes\\Fitness\\target\\instructors.txt";
+        String status = "Pending Approval";
+        String instructorRecord = String.join(",", id, name, email, phone, password, status);
+
+        appendToFile(instructorFilePath, instructorRecord);
+        printing.printSomething("Instructor signed up successfully! Your ID is: " + id);
+        printing.printSomething("An admin will approve your account soon.");
+    }
+
+    private void appendToFile(String filePath, String data) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            writer.write(data);
+            writer.newLine();
+        } catch (IOException e) {
+            printing.printError("Error writing to file: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    
+    
 
     public void adminPage(String adminId) throws Exception {
         while (true) {
@@ -698,7 +765,9 @@ public class function {
             case 4 -> printing.printSomething("Returning to Admin Dashboard...");
         }
     }
-    public void approveContent() throws IOException {
+    
+
+	public void approveContent() throws IOException {
         printing.printSomething("Approving articles...");
 
         // Path to articles file
@@ -796,133 +865,278 @@ public class function {
 
  //Wellness Content
 
-    private void approveWellnessContent() throws IOException {
-        printing.printSomething("Approving wellness articles, tips, or recipes...");
+	private void approveWellnessContent() throws IOException {
+	    printing.printSomething("Approving wellness articles, tips, or recipes...");
 
-        // Path to wellness content file
-        String wellnessContentFilePath = "C:\\Users\\Hp Zbook\\git\\Fitnes\\Fitness\\target\\wellnessContent.txt";
+	    // Path to wellness content file
+	    String wellnessContentFilePath = "C:\\Users\\Hp Zbook\\git\\Fitnes\\Fitness\\target\\wellnessContent.txt";
 
-        // List pending wellness content from the file
-        List<String[]> pendingContent = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(wellnessContentFilePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] fields = line.split(",");
-                if (fields.length >= 5 && "Pending".equalsIgnoreCase(fields[4].trim())) {
-                    pendingContent.add(fields);
-                }
-            }
-        } catch (IOException e) {
-            printing.printError("Error reading wellness content file: " + e.getMessage());
-            return;
-        }
+	    // List pending wellness content from the file
+	    List<String[]> pendingContent = new ArrayList<>();
+	    try (BufferedReader reader = new BufferedReader(new FileReader(wellnessContentFilePath))) {
+	        String line;
+	        while ((line = reader.readLine()) != null) {
+	            String[] fields = line.split(",");
+	            if (fields.length >= 5 && "Pending".equalsIgnoreCase(fields[4].trim())) {
+	                pendingContent.add(fields);
+	            }
+	        }
+	    } catch (IOException e) {
+	        printing.printError("Error reading wellness content file: " + e.getMessage());
+	        return;
+	    }
 
-        // Check if there is any pending content
-        if (pendingContent.isEmpty()) {
-            printing.printSomething("No wellness content pending approval.");
-            return;
-        }
+	    // Check if there is any pending content
+	    if (pendingContent.isEmpty()) {
+	        printing.printSomething("No wellness content pending approval.");
+	        return;
+	    }
 
-        // Display the pending content in a table format
-        printing.printSomething("\n+--------+-----------------------+---------------------+------------------------------+");
-        printing.printSomething("|  ID    | Content Name          | Instructor Name     | Type (Article/Tip/Recipe)    |");
-        printing.printSomething("+--------+-----------------------+---------------------+------------------------------+");
+	    // Display the pending content in a table format
+	    printing.printSomething("\n+--------+-----------------------+---------------------+------------------------------+");
+	    printing.printSomething("|  ID    | Content Name          | Instructor Name     | Type (Article/Tip/Recipe)    |");
+	    printing.printSomething("+--------+-----------------------+---------------------+------------------------------+");
 
-        for (String[] content : pendingContent) {
-            // Assuming fields: [ID, Content Name, Instructor Name, Type, Approval Status]
-            String contentId = content[0];
-            String contentName = content[1];
-            String instructorName = content[2];
-            String type = content[3];
-            printing.printSomething(String.format("| %-6s | %-21s | %-19s | %-28s |", 
-                contentId, contentName, instructorName, type));
-        }
+	    for (String[] content : pendingContent) {
+	        // Assuming fields: [ID, Content Name, Instructor Name, Type, Approval Status]
+	        String contentId = content[0];
+	        String contentName = content[1];
+	        String instructorName = content[2];
+	        String type = content[3];
+	        printing.printSomething(String.format("| %-6s | %-21s | %-19s | %-28s |", 
+	            contentId, contentName, instructorName, type));
+	    }
 
-        printing.printSomething("+--------+-----------------------+---------------------+------------------------------+");
+	    printing.printSomething("+--------+-----------------------+---------------------+------------------------------+");
 
-        // Clear the buffer before reading content ID
-        scanner.nextLine(); // Ensure previous input is cleared
+	    // Clear the buffer before reading content ID
+	    scanner.nextLine(); // Ensure previous input is cleared
 
-        // Ask for content ID to approve or reject
-        printing.printSomething("\nEnter content ID to approve or reject (or type 'exit' to go back): ");
-        String contentIdToProcess = scanner.nextLine().trim();
+	    // Ask for content ID to approve or reject
+	    printing.printSomething("\nEnter content ID to approve or reject (or type 'exit' to go back): ");
+	    String contentIdToProcess = scanner.nextLine().trim();
 
-        if (contentIdToProcess.equalsIgnoreCase("exit")) {
-            printing.printSomething("Returning to previous menu...");
-            return;
-        }
+	    if (contentIdToProcess.equalsIgnoreCase("exit")) {
+	        printing.printSomething("Returning to previous menu...");
+	        return;
+	    }
 
-        // Ask for approval or rejection
-        printing.printSomething("Enter 'approve' to approve or 'reject' to reject: ");
-        String action = scanner.nextLine().trim().toLowerCase();
+	    // Ask for approval or rejection
+	    printing.printSomething("Enter 'approve' to approve or 'reject' to reject: ");
+	    String action = scanner.nextLine().trim().toLowerCase();
 
-        if (!action.equals("approve") && !action.equals("reject")) {
-            printing.printSomething("Invalid action. Returning to previous menu...");
-            return;
-        }
+	    if (!action.equals("approve") && !action.equals("reject")) {
+	        printing.printSomething("Invalid action. Returning to previous menu...");
+	        return;
+	    }
 
-        // Process the selected content
-        boolean contentFound = false;
-        List<String[]> updatedContent = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(wellnessContentFilePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] fields = line.split(",");
-                if (fields[0].equals(contentIdToProcess)) {
-                    contentFound = true;
-                    fields[4] = action.equals("approve") ? "Approved" : "Rejected"; // Update status
-                }
-                updatedContent.add(fields);
-            }
+	    boolean contentFound = false;
+	    List<String[]> updatedContent = new ArrayList<>();
+	    try (BufferedReader reader = new BufferedReader(new FileReader(wellnessContentFilePath))) {
+	        String line;
+	        while ((line = reader.readLine()) != null) {
+	            String[] fields = line.split(",");
+	            if (fields[0].equals(contentIdToProcess)) {
+	                contentFound = true;
+	                if (action.equals("approve")) {
+	                    fields[4] = "Approved"; // Update status to Approved
+	                } else {
+	                    deleteContent(contentIdToProcess, wellnessContentFilePath); // Delete rejected content
+	                    return;
+	                }
+	            }
+	            updatedContent.add(fields);
+	        }
 
-            // Rewrite the file with updated content
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(wellnessContentFilePath))) {
-                for (String[] content : updatedContent) {
-                    writer.write(String.join(",", content));
-                    writer.newLine();
-                }
-            }
+	        // Rewrite the file with updated content
+	        try (BufferedWriter writer = new BufferedWriter(new FileWriter(wellnessContentFilePath))) {
+	            for (String[] content : updatedContent) {
+	                writer.write(String.join(",", content));
+	                writer.newLine();
+	            }
+	        }
 
-        } catch (IOException e) {
-            printing.printError("Error processing wellness content: " + e.getMessage());
-            return;
-        }
+	    } catch (IOException e) {
+	        printing.printError("Error processing wellness content: " + e.getMessage());
+	        return;
+	    }
 
-        if (contentFound) {
-            printing.printSomething("Content with ID " + contentIdToProcess + " has been " + (action.equals("approve") ? "approved!" : "rejected!"));
-        } else {
-            printing.printSomething("Content ID " + contentIdToProcess + " not found.");
-        }
-    }
+	    if (contentFound) {
+	        printing.printSomething("Content with ID " + contentIdToProcess + " has been " + (action.equals("approve") ? "approved!" : "rejected and deleted!"));
+	    } else {
+	        printing.printSomething("Content ID " + contentIdToProcess + " not found.");
+	    }
+	}
+	public void deleteContent(String contentId, String filePath) {
+	    List<String> updatedContent = new ArrayList<>();
+	    boolean contentFound = false;
+
+	    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+	        String line;
+	        while ((line = reader.readLine()) != null) {
+	            String[] fields = line.split(",");
+	            if (!fields[0].equals(contentId)) {
+	                updatedContent.add(line); // Retain non-matching lines
+	            } else {
+	                contentFound = true; // Mark that the content was found
+	            }
+	        }
+	    } catch (IOException e) {
+	        printing.printError("Error reading file: " + e.getMessage());
+	        return;
+	    }
+
+	    if (!contentFound) {
+	        printing.printSomething("Content ID " + contentId + " not found.");
+	        return;
+	    }
+
+	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+	        for (String record : updatedContent) {
+	            writer.write(record);
+	            writer.newLine();
+	        }
+	        printing.printSomething("Content with ID " + contentId + " has been deleted successfully.");
+	    } catch (IOException e) {
+	        printing.printError("Error writing to file: " + e.getMessage());
+	    }
+	}
 
 //feedback 
-    private void handleFeedback() throws IOException {
-        printing.printSomething("Handling user feedback...");}
+	private void handleFeedback() throws IOException {
+	    while (true) {
+	        printing.printSomething("""
+	            ---- Feedback Management ----
+	            | 1. Review and Respond       |
+	            | 2. Back                     |
+	            --------------------------------
+	            Enter your choice:
+	        """);
 
-    	public void respondToFeedback() {
-    		// TODO Auto-generated method stub
-    		
-    	}
+	        int choice = getValidChoice(1, 2);
+	        switch (choice) {
+	            case 1 -> reviewAndRespondFeedback();
+	            case 2 -> {
+	                printing.printSomething("Returning to Content Management...");
+	                return;
+	            }
+	            default -> printing.printSomething("Invalid choice. Try again.");
+	        }
+	    }
+	}
 
-    	public void removeFeedback() {
-    		// TODO Auto-generated method stub
-    		
-    	}
+	// Method to review all feedback and respond to a selected one
+	public void reviewAndRespondFeedback() throws IOException {
+	    List<String[]> feedbackList = new ArrayList<>();
+	    try (BufferedReader reader = new BufferedReader(new FileReader(FEEDBACK_FILE))) {
+	        String line;
+	        while ((line = reader.readLine()) != null) {
+	            String[] data = line.split(",");
+	            feedbackList.add(data);
+	        }
+	    } catch (IOException e) {
+	        printing.printError("Error reading feedback file: " + e.getMessage());
+	        return;
+	    }
 
-    	public void deleteContent() {
-    		// TODO Auto-generated method stub
-    		
-    	}
+	    if (feedbackList.isEmpty()) {
+	        printing.printSomething("No feedback available for review.");
+	        return;
+	    }
 
-    	public void viewFeedback() {
-    		// TODO Auto-generated method stub
-    		
-    	}
+	    printing.printSomething("\n+--------+-----------+-----------+-------------------------+----------+");
+	    printing.printSomething("| ID     | Client ID | Program ID | Feedback                | Status   |");
+	    printing.printSomething("+--------+-----------+-----------+-------------------------+----------+");
 
-    
-    
+	    for (String[] feedback : feedbackList) {
+	        String responseStatus = feedback.length > 5 && feedback[5] != null ? feedback[5] : "No response yet";
+	        printing.printSomething(String.format("| %-6s | %-9s | %-9s | %-23s | %-8s |",
+	                feedback[0], feedback[1], feedback[2], feedback[3], feedback[4]));
+	    }
 
-    
+	    printing.printSomething("+--------+-----------+-----------+-------------------------+----------+");
+
+	    printing.printSomething("Enter the Feedback ID to respond to (or type 'exit' to go back): ");
+	    scanner.nextLine(); // Clear buffer
+	    String feedbackId = scanner.nextLine();
+
+	    if (feedbackId.equalsIgnoreCase("exit")) {
+	        printing.printSomething("Returning to Feedback Management...");
+	        return;
+	    }
+
+	    StringBuilder updatedContent = new StringBuilder();
+	    boolean feedbackFound = false;
+
+	    for (String[] feedback : feedbackList) {
+	        if (feedback[0].equals(feedbackId)) {
+	            feedbackFound = true;
+	            printing.printSomething("Feedback: " + feedback[3]);
+	            printing.printSomething("Enter your response: ");
+	            String response = scanner.nextLine();
+
+	            if (feedback.length < 6) {
+	                feedback = Arrays.copyOf(feedback, 6);
+	            }
+	            feedback[5] = response; // Add response
+	            printing.printSomething("Response added to Feedback ID " + feedbackId + ".");
+	        }
+	        updatedContent.append(String.join(",", feedback)).append("\n");
+	    }
+
+	    if (!feedbackFound) {
+	        printing.printSomething("Feedback ID " + feedbackId + " not found.");
+	        return;
+	    }
+
+	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(FEEDBACK_FILE))) {
+	        writer.write(updatedContent.toString());
+	    } catch (IOException e) {
+	        printing.printError("Error writing to feedback file: " + e.getMessage());
+	    }
+	}
+
+	public void removeFeedback() {
+		 printing.printSomething("Enter Feedback ID to remove: ");
+ 	    scanner.nextLine(); // Clear buffer
+ 	    String feedbackId = scanner.nextLine();
+
+ 	    String feedbackFilePath = "C:\\Users\\Hp Zbook\\git\\Fitnes\\Fitness\\target\\feedback.txt"; // Update the path as necessary
+ 	    List<String> updatedFeedback = new ArrayList<>();
+ 	    boolean feedbackFound = false;
+
+ 	    try (BufferedReader reader = new BufferedReader(new FileReader(feedbackFilePath))) {
+ 	        String line;
+ 	        while ((line = reader.readLine()) != null) {
+ 	            String[] fields = line.split(",");
+ 	            if (!fields[0].equals(feedbackId)) {
+ 	                updatedFeedback.add(line); // Retain non-matching lines
+ 	            } else {
+ 	                feedbackFound = true; // Mark that the feedback was found
+ 	            }
+ 	        }
+ 	    } catch (IOException e) {
+ 	        printing.printError("Error reading feedback file: " + e.getMessage());
+ 	        return;
+ 	    }
+
+ 	    if (!feedbackFound) {
+ 	        printing.printSomething("Feedback ID " + feedbackId + " not found.");
+ 	        return;
+ 	    }
+
+ 	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(feedbackFilePath))) {
+ 	        for (String record : updatedFeedback) {
+ 	            writer.write(record);
+ 	            writer.newLine();
+ 	        }
+ 	        printing.printSomething("Feedback with ID " + feedbackId + " has been removed successfully.");
+ 	    } catch (IOException e) {
+ 	        printing.printError("Error writing to feedback file: " + e.getMessage());
+ 	    }
+	}
+
+
     
 //Subscription Management
     private void handleSubscriptionManagement() throws IOException {
@@ -1158,6 +1372,66 @@ public class function {
             }
         }
     }
+
+    //login
+	
+    private boolean logState; // Track login state
+
+    public void signInFunction() throws Exception {
+        Scanner scanner = new Scanner(System.in);
+        Printing printing = new Printing();
+        
+        printing.printSomething("Enter Username: ");
+        String username = scanner.nextLine();
+
+        printing.printSomething("Enter Password: ");
+        String password = scanner.nextLine();
+
+        // Example credential validation logic
+        String adminUsername = "loaa";
+        String adminPassword = "12345";
+
+        if (username.equals(adminUsername) && password.equals(adminPassword)) {
+            printing.printSomething("Admin login successful! Redirecting to admin settings...");
+            setLogstate(true);
+            adminPage(username); // Open admin settings
+        } else if (validateUser(username, password)) { // Replace with actual user validation logic
+            printing.printSomething("User login successful! Welcome, " + username + ".");
+            setLogstate(true);
+            // Redirect to user dashboard or other functionality
+        } else {
+            printing.printSomething("Invalid username or password. Please try again.");
+            setLogstate(false);
+        }
+    }
+
+    // Example user validation (replace with actual database or file checks)
+    private boolean validateUser(String username, String password) {
+        // Dummy data for example purposes
+        Map<String, String> users = Map.of(
+            "user1", "password1",
+            "user2", "password2"
+        );
+        return users.containsKey(username) && users.get(username).equals(password);
+    }
+
+    private void setLogstate(boolean state) {
+        this.logState = state;
+    }
+
+    public boolean getLogstate() {
+        return this.logState;
+    }
+
+	
+
+	
+
+	
+
+	
+
+	
 
     
 }
