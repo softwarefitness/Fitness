@@ -49,7 +49,11 @@
         <scope>test</scope>
     </dependency>
   </dependencies>
-  
+  <properties>
+  <sonar.organization>najahcon</sonar.organization>
+  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+</properties>
+
   <build>
     <plugins>
       <plugin>
