@@ -7,7 +7,7 @@ public class Printing {
      *
      * @param message the message to be printed
      */
-    public void printSomething(String message) {
+    public static void printSomething(String message) {
         System.out.println(message);
     }
 
@@ -50,4 +50,3 @@ public class Printing {
         System.out.println("✅ SUCCESS: " + message);
     }
 }
-
