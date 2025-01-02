@@ -6,6 +6,13 @@
     <artifactId>Fitness</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
+    <repositories>
+        <repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/<github-username>/<networkhw2-repository-name></url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!-- Cucumber dependencies -->
         <dependency>
@@ -37,6 +44,7 @@
             <version>1.6.2</version>
         </dependency>
 
+        <!-- NetworkHW2 Dependency -->
         <dependency>
             <groupId>com.mycompany</groupId>
             <artifactId>NetworkHW2</artifactId>
@@ -90,5 +98,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
