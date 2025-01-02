@@ -30,6 +30,7 @@
             <scope>test</scope>
         </dependency>
 
+             
         <!-- JavaMail API -->
         <dependency>
             <groupId>com.sun.mail</groupId>
