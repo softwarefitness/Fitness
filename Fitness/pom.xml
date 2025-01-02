@@ -1,12 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>Fitness</groupId>
-  <artifactId>Fitness</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-
-
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>Fitness</groupId>
+    <artifactId>Fitness</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
     <dependencies>
+        <!-- Cucumber dependencies -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-picocontainer</artifactId>
@@ -28,20 +29,18 @@
             <version>7.15.0</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- JavaMail API -->
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>
             <version>1.6.2</version>
         </dependency>
-        <dependency>
-        	<groupId>com.mycompany</groupId>
-        	<artifactId>NetworkHW2</artifactId>
-        	<version>1.0-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <!-- Maven Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -52,8 +51,8 @@
                 </configuration>
             </plugin>
 
-
-              <plugin>
+            <!-- Maven Surefire Plugin -->
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
@@ -63,13 +62,13 @@
                         <include>**/*Tests.java</include>
                     </includes>
                 </configuration>
-               </plugin>
-                 
-            <!-- JaCoCo plugin configuration -->
+            </plugin>
+
+            <!-- JaCoCo Plugin -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.7</version> <!-- Adjust the version as needed -->
+                <version>0.8.7</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -89,5 +88,10 @@
         </plugins>
     </build>
 
-   
+    <properties>
+        <sonar.organization>Softwarefitness</sonar.organization>  
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    </properties>
+
 </project>
+
