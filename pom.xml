@@ -9,7 +9,7 @@
     <repositories>
         <repository>
             <id>github</id>
-            <url>https://maven.pkg.github.com/<github-username>/<networkhw2-repository-name></url>
+            <url>https://maven.pkg.github.com/your-github-username/NetworkHW2</url>
         </repository>
     </repositories>
 
