@@ -1375,19 +1375,23 @@ public class function {
 
     //login
 	
+
+ 
+
+
     private boolean logState; // Track login state
 
     public void signInFunction() throws Exception {
         Scanner scanner = new Scanner(System.in);
         Printing printing = new Printing();
-        
+
         printing.printSomething("Enter Username: ");
         String username = scanner.nextLine();
 
         printing.printSomething("Enter Password: ");
         String password = scanner.nextLine();
 
-        // Example credential validation logic
+        // Example credentials for Admin
         String adminUsername = "loaa";
         String adminPassword = "12345";
 
@@ -1395,24 +1399,51 @@ public class function {
             printing.printSomething("Admin login successful! Redirecting to admin settings...");
             setLogstate(true);
             adminPage(username); // Open admin settings
-        } else if (validateUser(username, password)) { // Replace with actual user validation logic
-            printing.printSomething("User login successful! Welcome, " + username + ".");
-            setLogstate(true);
-            // Redirect to user dashboard or other functionality
         } else {
-            printing.printSomething("Invalid username or password. Please try again.");
-            setLogstate(false);
+            // Validate against clients.txt
+            String role = validateCredentials(username, password);
+            if ("Client".equals(role)) {
+                printing.printSomething("Client login successful! Welcome, " + username + ".");
+                setLogstate(true);
+                ClientFunction clientFunction = new ClientFunction();
+                clientFunction.clientDashboard(username); // Redirect to Client Dashboard
+            } else if ("Instructor".equals(role)) {
+                printing.printSomething("Instructor login successful! Welcome, " + username + ".");
+                setLogstate(true);
+               // InstructorFunction instructorFunction = new InstructorFunction();
+              //  instructorFunction.instructorDashboard(username); // Redirect to Instructor Dashboard
+            } else {
+                printing.printSomething("Invalid username or password. Please try again.");
+                setLogstate(false);
+            }
         }
     }
 
-    // Example user validation (replace with actual database or file checks)
-    private boolean validateUser(String username, String password) {
-        // Dummy data for example purposes
-        Map<String, String> users = Map.of(
-            "user1", "password1",
-            "user2", "password2"
-        );
-        return users.containsKey(username) && users.get(username).equals(password);
+    // Validate credentials from the file
+    private String validateCredentials(String username, String password) {
+        String filePath = "C:\\Users\\Hp Zbook\\git\\Fitnes\\Fitness\\target\\clients.txt"; 
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+
+                if (parts.length == 6) { // Ensure line has the expected 6 fields
+                    String fileUsername = parts[1].trim();  // Name field
+                    String filePassword = parts[4].trim();  // Password field
+                    String status = parts[5].trim();        // Status field
+
+                    if (username.equals(fileUsername) && password.equals(filePassword) && "Approved".equals(status)) {
+                        // If credentials match and status is "Approved", return "Client" role
+                        return "Client";  // You can also check for "Instructor" role here if needed
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+        }
+
+        return null; // Return null if no match is found or if the account is not approved
     }
 
     private void setLogstate(boolean state) {
@@ -1422,16 +1453,10 @@ public class function {
     public boolean getLogstate() {
         return this.logState;
     }
-
-	
-
-	
-
-	
-
+}
 	
 
 	
 
     
-}
+
