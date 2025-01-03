@@ -1,163 +1,163 @@
 package fitnessAcceptanceTest;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.*;
 
-
 public class ProgramManagement {
-	
-	class Client {
-	    int id;
-	    String name;
-	    int age;
-	    String fitnessGoals;
-	    String dietaryPreferences;
-	    String accountStatus;
 
-	    public Client(int id, String name, int age, String fitnessGoals, String dietaryPreferences) {
-	        this.id = id;
-	        this.name = name;
-	        this.age = age;
-	        this.fitnessGoals = fitnessGoals;
-	        this.dietaryPreferences = dietaryPreferences;
-	        this.accountStatus = "Pending"; 
-	    }
+    class Client {
+        int id;
+        String name;
+        int age;
+        String fitnessGoals;
+        String dietaryPreferences;
+        String accountStatus;
 
-	    public String getName() {
-	        return name;
-	    }
-	    public String getAccountStatus() {
-	        return accountStatus;
-	    }
-	    
-	    public void setAccountStatus(String status) {
-	        this.accountStatus = status;
-	    }
+        public Client(int id, String name, int age, String fitnessGoals, String dietaryPreferences) {
+            this.id = id;
+            this.name = name;
+            this.age = age;
+            this.fitnessGoals = fitnessGoals;
+            this.dietaryPreferences = dietaryPreferences;
+            this.accountStatus = "Pending";
+        }
 
+        public String getName() {
+            return name;
+        }
 
-	    public void updateProfile(String newName, int newAge, String newGoals, String newPreferences) {
-	        this.name = newName;
-	        this.age = newAge;
-	        this.fitnessGoals = newGoals;
-	        this.dietaryPreferences = newPreferences;
-	    }
+        public String getAccountStatus() {
+            return accountStatus;
+        }
 
-	    @Override
-	    public String toString() {
-	        return "ID: " + id + ", Name: " + name + ", Age: " + age + ", Fitness Goals: " + fitnessGoals + ", Dietary Preferences: " + dietaryPreferences;
-	    }
-	}
+        public void setAccountStatus(String status) {
+            this.accountStatus = status;
+        }
 
-	class AccountManagementSystem {
-	    private Map<Integer, Client> clients = new HashMap<>();
-	    private int clientCounter = 1;
+        public void updateProfile(String newName, int newAge, String newGoals, String newPreferences) {
+            this.name = newName;
+            this.age = newAge;
+            this.fitnessGoals = newGoals;
+            this.dietaryPreferences = newPreferences;
+        }
 
-	    public int createProfile(String name, int age, String fitnessGoals, String dietaryPreferences) {
-	        Client newClient = new Client(clientCounter, name, age, fitnessGoals, dietaryPreferences);
-	        clients.put(clientCounter, newClient);
-	        return clientCounter++;
-	    }
+        @Override
+        public String toString() {
+            return "ID: " + id + ", Name: " + name + ", Age: " + age + ", Fitness Goals: " + fitnessGoals + ", Dietary Preferences: " + dietaryPreferences;
+        }
+    }
 
-	    public boolean approveAccount(int clientId, AdminInterface admin) {
-	        Client client = clients.get(clientId);
-	        if (client != null && client.getAccountStatus().equals("Pending")) {
-	            // طلب الموافقة من المدير
-	            if (admin.approveAccount(clientId)) {
-	                client.setAccountStatus("Active");
-	                sendNotification(String.valueOf(clientId), "Your account has been approved and activated.");
-	                return true;
-	            }
-	        }
-	        return false;
-	    }
+    class AccountManagementSystem {
+        private Map<Integer, Client> clients = new HashMap<>();
+        private int clientCounter = 1;
 
-	    public boolean rejectAccount(int clientId, AdminInterface admin) {
-	        Client client = clients.get(clientId);
-	        if (client != null && client.getAccountStatus().equals("Pending")) {
-	            // طلب الرفض من المدير
-	            if (admin.rejectAccount(clientId)) {
-	                client.setAccountStatus("Rejected");
-	                sendNotification(String.valueOf(clientId), "Your account has been rejected.");
-	                return true;
-	            }
-	        }
-	        return false;
-	    }
-	    public Client getClientById(int clientId) {
-	        return clients.get(clientId);  // إرجاع العميل باستخدام معرّف العميل
-	    }
-	    // إرسال إشعار للعميل
-	    private void sendNotification(String clientId, String message) {
-	        System.out.println("Notification to Client " + clientId + ": " + message);
-	    }
-	}
-	public void resetPassword(String email) {
-	    try (BufferedReader reader = new BufferedReader(new FileReader("clients.txt"))) {
-	        String line;
-	        while ((line = reader.readLine()) != null) {
-	            String[] data = line.split(",");
-	            if (data[2].equals(email)) {
-	            	sendNotification(data[1], "Password reset link: [link]");  // إرسال إشعار مع الرابط
-	            }
-	        }
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-	}
-	public void deactivateAccount(String clientId)  {
-	    File inputFile = new File("clients.txt");
-	    File tempFile = new File("temp_clients.txt");
+        public int createProfile(String name, int age, String fitnessGoals, String dietaryPreferences) {
+            Client newClient = new Client(clientCounter, name, age, fitnessGoals, dietaryPreferences);
+            clients.put(clientCounter, newClient);
+            return clientCounter++;
+        }
 
-	    if (!inputFile.exists()) {
-	        System.out.println("The file clients.txt does not exist.");
-	        return;
-	    }
+        // Duplicating this approve function to allow approve logic for ProgramManagement
+        public void approve() throws IOException {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Listing all users pending approval:\n");
 
-	    try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-	         BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
-	        String line;
-	        boolean clientFound = false;
+            // List all pending approvals for clients
+            listPendingApprovals("clients.txt", "Client");
 
-	        while ((line = reader.readLine()) != null) {
-	            String[] data = line.split(",");
-	            if (data[0].equals(clientId)) {
-	                data[4] = "Inactive"; // تحديث الحالة إلى غير نشط
-	                clientFound = true;
-	                System.out.println("Deactivating account for client: " + data[1]);
-	                sendNotification(data[1], "Your account has been deactivated.");
-	            }
-	            writer.write(String.join(",", data)); // كتابة السطر إلى الملف المؤقت
-	            writer.newLine();
-	        }
+            // List all pending approvals for instructors
+            listPendingApprovals("instructors.txt", "Instructor");
 
-	        if (!clientFound) {
-	            System.out.println("Client with ID " + clientId + " not found.");
-	        }
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
+            System.out.print("\nEnter User ID to approve: ");
+            String userId = scanner.next(); // Get user ID
 
-	    if (!tempFile.renameTo(inputFile)) {
-	        System.out.println("Failed to rename the temporary file.");
-	    } else {
-	        System.out.println("Deactivation successful.");
-	    }
-	}
+            // Try approving the user in clients file
+            boolean updatedInClients = updateUserStatus(
+                "clients.txt",
+                userId,
+                "Active"
+            );
 
+            // Try approving the user in instructors file if not found in clients
+            if (!updatedInClients) {
+                boolean updatedInInstructors = updateUserStatus(
+                    "instructors.txt",
+                    userId,
+                    "Active"
+                );
+                if (!updatedInInstructors) {
+                    System.out.println("User not found in either clients or instructors files.");
+                }
+            }
+        }
 
+        private void listPendingApprovals(String fileName, String userType) throws IOException {
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+            String line;
+            boolean foundPending = false;
 
-	private void sendNotification(String clientName, String message) {
-	    try (BufferedWriter writer = new BufferedWriter(new FileWriter("notifications.txt", true))) {
-	        writer.write(clientName + "," + message);
-	        writer.newLine();
-	    } catch (IOException e) {
-	        System.out.println("Error writing notification: " + e.getMessage());
-	    }
-	}
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data[4].equals("Pending")) {
+                    System.out.println(userType + " ID: " + data[0] + ", Name: " + data[1] + ", Status: " + data[4]);
+                    foundPending = true;
+                }
+            }
+            if (!foundPending) {
+                System.out.println("No pending " + userType + "s for approval.");
+            }
+            reader.close();
+        }
+
+        private boolean updateUserStatus(String fileName, String userId, String newStatus) throws IOException {
+            File inputFile = new File(fileName);
+            File tempFile = new File("temp_" + fileName);
+
+            BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+            String line;
+            boolean userFound = false;
+
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data[0].equals(userId) && data[4].equals("Pending")) {
+                    data[4] = newStatus; // Update the status
+                    userFound = true;
+                }
+                writer.write(String.join(",", data));
+                writer.newLine();
+            }
+
+            reader.close();
+            writer.close();
+
+            // Replace the original file with the temporary one
+            if (userFound) {
+                if (tempFile.renameTo(inputFile)) {
+                    System.out.println("User " + userId + " has been approved.");
+                    return true;
+                } else {
+                    System.out.println("Failed to update user status.");
+                    return false;
+                }
+            } else {
+                System.out.println("User with ID " + userId + " not found or not in Pending status.");
+                return false;
+            }
+        }
+    }
+
+    // Main entry point for the program to simulate approval logic
+    public static void main(String[] args) throws IOException {
+        ProgramManagement programManagement = new ProgramManagement();
+        AccountManagementSystem accountManagement = programManagement.new AccountManagementSystem();
+
+        // Create some sample profiles for testing
+        accountManagement.createProfile("John Doe", 25, "Lose Weight", "Vegetarian");
+        accountManagement.createProfile("Jane Smith", 30, "Build Muscle", "None");
+
+        // Simulating the approve process
+        accountManagement.approve();
+    }
 }
-
-
