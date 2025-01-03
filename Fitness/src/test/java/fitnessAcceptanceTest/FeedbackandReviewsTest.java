@@ -1,5 +1,6 @@
 package fitnessAcceptanceTest;
- import fitnessAcceptanceTest.FeedbackandReviews;
+
+import fitnessAcceptanceTest.FeedbackandReviews;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -8,7 +9,7 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 public class FeedbackandReviewsTest {
-	FeedbackandReviews feedbackAndReviews = new FeedbackandReviews();
+    FeedbackandReviews feedbackAndReviews = new FeedbackandReviews();
 
     @Given("I have completed a program")
     public void i_have_completed_a_program() {
@@ -25,13 +26,13 @@ public class FeedbackandReviewsTest {
     @Then("the rating should be saved successfully")
     public void the_rating_should_be_saved_successfully() {
         // Verify if the feedback has been stored
-        feedbackAndReviews.viewMyFeedback("client123");
+        assertNotNull("Rating should be saved", feedbackAndReviews.viewMyFeedback("client123"));
     }
 
     @Then("I should be able to view my rating on the program page")
     public void i_should_be_able_to_view_my_rating_on_the_program_page() {
         // Simulate viewing the rating on the program page
-        feedbackAndReviews.viewMyFeedback("client123");
+        assertNotNull("Rating should be visible", feedbackAndReviews.viewMyFeedback("client123"));
     }
 
     @When("I write a review with the content {string}")
@@ -43,13 +44,13 @@ public class FeedbackandReviewsTest {
     @Then("the review should be saved successfully")
     public void the_review_should_be_saved_successfully() {
         // Verify if the review has been saved
-        feedbackAndReviews.viewMyFeedback("client123");
+        assertNotNull("Review should be saved", feedbackAndReviews.viewMyFeedback("client123"));
     }
 
     @Then("I should be able to view my review on the program page")
     public void i_should_be_able_to_view_my_review_on_the_program_page() {
         // Simulate viewing the review on the program page
-        feedbackAndReviews.viewMyFeedback("client123");
+        assertNotNull("Review should be visible", feedbackAndReviews.viewMyFeedback("client123"));
     }
 
     @When("I submit a suggestion with the content {string}")
@@ -61,31 +62,20 @@ public class FeedbackandReviewsTest {
     @Then("the suggestion should be saved successfully")
     public void the_suggestion_should_be_saved_successfully() {
         // Verify if the suggestion has been saved
-        feedbackAndReviews.viewMyFeedback("client123");
+        assertNotNull("Suggestion should be saved", feedbackAndReviews.viewMyFeedback("client123"));
     }
 
     @Then("the instructor should be notified of my suggestion")
     public void the_instructor_should_be_notified_of_my_suggestion() {
         // Verify if the instructor has been notified (check notifications)
-        feedbackAndReviews.viewNotifications("instructor123");
-    }
-
-    @When("I view the program page")
-    public void i_view_the_program_page() {
-        // Simulate viewing the program page
-        System.out.println("Viewing program page.");
+        assertTrue("Instructor should be notified", feedbackAndReviews.viewNotifications("instructor123").size() > 0);
     }
 
     @Then("I should be able to see all ratings and reviews from other clients")
     public void i_should_be_able_to_see_all_ratings_and_reviews_from_other_clients() {
         // Simulate viewing all ratings and reviews
-        feedbackAndReviews.viewMyFeedback("client123");
-    }
-
-    @Given("I have already written a review")
-    public void i_have_already_written_a_review() {
-        // Simulate that a review has already been written
-        feedbackAndReviews.submitFeedback("client123", "program456", "Great program!");
+        List<String> feedback = feedbackAndReviews.viewMyFeedback("client123");
+        assertTrue("Ratings and reviews should be visible", feedback.size() > 0);
     }
 
     @When("I edit my review to change the content to {string}")
@@ -97,13 +87,13 @@ public class FeedbackandReviewsTest {
     @Then("my review should be updated successfully")
     public void my_review_should_be_updated_successfully() {
         // Verify that the review has been updated
-        feedbackAndReviews.viewMyFeedback("client123");
+        assertNotNull("Review should be updated", feedbackAndReviews.viewMyFeedback("client123"));
     }
 
     @Then("I should be able to see the updated review on the program page")
     public void i_should_be_able_to_see_the_updated_review_on_the_program_page() {
         // Simulate viewing the updated review
-        feedbackAndReviews.viewMyFeedback("client123");
+        assertNotNull("Updated review should be visible", feedbackAndReviews.viewMyFeedback("client123"));
     }
 
     @When("I rate the program with a score of {int} star and a comment {string}")
@@ -121,13 +111,8 @@ public class FeedbackandReviewsTest {
     @Then("I should be notified that my rating is under review")
     public void i_should_be_notified_that_my_rating_is_under_review() {
         // Simulate notification for under review rating
-        feedbackAndReviews.viewNotifications("client123");
-    }
-
-    @When("I write a review with content {string}")
-    public void i_write_a_review_with_content(String reviewContent) {
-        // Simulate writing a review
-        feedbackAndReviews.submitFeedback("client123", "program456", reviewContent);
+        List<String> notifications = feedbackAndReviews.viewNotifications("client123");
+        assertTrue("Rating under review notification should be present", notifications.size() > 0);
     }
 
     @Then("the review should be flagged as inappropriate")
@@ -139,7 +124,8 @@ public class FeedbackandReviewsTest {
     @Then("I should be notified that my review has been rejected due to inappropriate content")
     public void i_should_be_notified_that_my_review_has_been_rejected_due_to_inappropriate_content() {
         // Simulate notification for rejected review
-        feedbackAndReviews.viewNotifications("client123");
+        List<String> notifications = feedbackAndReviews.viewNotifications("client123");
+        assertTrue("Inappropriate review rejection notification should be present", notifications.size() > 0);
     }
 
     @Given("I have already rated a program with {int} stars")
@@ -164,12 +150,6 @@ public class FeedbackandReviewsTest {
     public void the_system_should_not_allow_the_duplicate_rating_or_review() {
         // Simulate blocking duplicate ratings or reviews
         System.out.println("Duplicate rating or review is not allowed.");
-    }
-
-    @When("I submit a review with the content {string}")
-    public void i_submit_a_review_with_the_content(String reviewContent) {
-        // Simulate submitting a review
-        feedbackAndReviews.submitFeedback("client123", "program456", reviewContent);
     }
 
     @Then("the system should prompt me to provide more details if the review is too vague")
@@ -216,5 +196,4 @@ public class FeedbackandReviewsTest {
         // Assert that the client has been notified
         assertTrue("Client should be notified about the review status", notifications.size() > 0);
     }
-
 }
